@@ -2,6 +2,7 @@ import Navigation from '../components/Navigation.tsx';
 import { Fragment } from 'preact';
 import { Handlers, PageProps } from '$fresh/server.ts';
 import { IProduct } from '../utils/types.ts';
+import ProductCard from '../components/ProductCard.tsx';
 
 export const handler: Handlers<IProduct[] | null> = {
   async GET(_, ctx) {
@@ -18,14 +19,19 @@ export const handler: Handlers<IProduct[] | null> = {
 
 export default function Home({ data: products }: PageProps<IProduct[] | null>) {
   if (!products) return <p>No products</p>;
+  console.log(products);
 
   return (
     <Fragment>
       <Navigation />
-      <div class="p-4 mx-auto max-w-screen-md">
+      <div class="p-4 mx-auto max-w-screen-md mt-[50px]">
         <h1>hello</h1>
 
-        {JSON.stringify(products)}
+        <div>
+          {products.map((prod) => (
+            <ProductCard key={prod.id} product={prod} />
+          ))}
+        </div>
       </div>
     </Fragment>
   );
